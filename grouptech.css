@@ -1,0 +1,40 @@
+$defaultBg      : #428bdd;
+
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.jumbotron {
+  padding-top: 80px;
+  padding-bottom: 20px;
+}
+
+.btn-primary {
+	background-color: #428bdd;
+}
+
+.navbar-inverse {
+	background-color: #428bdd;
+	border-color: #428bdd;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #ffffff;
+}
+
+ul.li.nav { color: #428bdd; }
+
+.navbar-nav>li>a { color: #ffffff !important; }
+
+.navbar-nav>.open>a { color: #ffffff; }
+
+.dropdown-toggle:active, .open .dropdown-toggle {
+	background:#539cee !important; 
+}
+
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;    
+}
+
+ul.nav a:hover { color: #bbbbbb !important; }
