@@ -30,11 +30,6 @@
 ;;;;;;
 
 
-(defn get-index [request]
-    {:status 200
-        :headers {"Content-Type" "text/html"}
-        :body
-            (layouts/layout-page (views/get-index request authorize-url))})
 
 ;;; Create user client
 (defn create-client []
@@ -71,10 +66,14 @@
   (zipmap (keys pages)
           (map layouts/layout-page (vals pages))))
 
-(defn markdown-pages [pages]
+(defn markdown-pages [pages with-layout]
   (zipmap (map #(str/replace % #"\.md$" "/") (keys pages))
-          (map #(layouts/layout-page (md/to-html %)) (vals pages))))
+          (if with-layout
+            (map #(layouts/layout-page (md/to-html %)) (vals pages))
+            (map #(md/to-html %) (vals pages)))))
 
+(defn get-taste []
+    (markdown-pages (stasis/slurp-directory "resources/md" #"\.md$") false))
 
 (defn get-pages []
   (stasis/merge-page-sources
@@ -83,8 +82,13 @@
     :partials
     (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))
     :markdown
-    (markdown-pages (stasis/slurp-directory "resources/md" #"\.md$"))}))
+    (markdown-pages (stasis/slurp-directory "resources/md" #"\.md$") true)}))
 
+(defn get-index [request]
+    {:status 200
+        :headers {"Content-Type" "text/html"}
+        :body
+            (layouts/layout-page (views/get-index request authorize-url get-taste))})
 
 (defroutes routes
     (GET "/" request (get-index request))
