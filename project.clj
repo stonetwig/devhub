@@ -11,7 +11,8 @@
                 [compojure "1.1.3"]
                 [clj-http "0.7.9"]
                 [cheshire "5.3.1"]
-                [spid-client-clojure "1.0.0"]]
+                [spid-client-clojure "1.0.0"]
+                [de.ubercode.clostache/clostache "1.4.0"]]
      :ring {:handler devhub.web/app}
      :profiles {:dev {:plugins [[lein-ring "0.8.10"]]
                       :resource-paths ["config"]}})

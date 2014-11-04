@@ -88,7 +88,7 @@
     {:status 200
         :headers {"Content-Type" "text/html"}
         :body
-            (layouts/layout-page (views/get-index request authorize-url get-taste))})
+            (layouts/layout-page (views/get-index request authorize-url get-taste) authorize-url request)})
 
 (defroutes routes
     (GET "/" request (get-index request))

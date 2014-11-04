@@ -1,15 +1,9 @@
 (ns devhub.layouts
-  (:require [hiccup.page :refer [html5]]))
+  (:require [clostache.parser :as cp]))
 
-(defn layout-page [page]
-  (html5
-   [:head
-    [:meta {:charset "utf-8"}]
-    [:meta {:name "viewport"
-            :content "width=device-width, initial-scale=1.0"}]
-    [:title "Developer Hub"]
-    [:link {:rel "stylesheet" :href "/styles/styles.css"}]]
-   [:body
-    [:div.logo "developers.schibsted.com"]
-    [:div.menu]
-    [:div.body page]]))
+(defn layout-page [page & [authorize-url request]]
+  (if request
+    (if-let [name (-> request :session :user :displayName)]
+      (cp/render-resource "templates/layout.mustache" {:page page :login (str "Hello " name "! <a href='/logout' class='btn btn-danger'>Log out</a>")})
+      (cp/render-resource "templates/layout.mustache" {:page page :login (str "<a href='" authorize-url "' class='btn btn-success'>Login with SPiD</a>")}))
+    (cp/render-resource "templates/layout.mustache" {:page page :login ""})))
